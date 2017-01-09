@@ -1,0 +1,77 @@
+---
+
+- hosts: all
+  tasks:
+
+    #### Add a value-less Option ####
+    - copy: src=example-fstab dest=./fstab
+
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: foobar42
+
+    - command: cat fstab
+      register: fstab
+    - assert:
+        that: "'foobar42' in fstab.stdout"
+
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: foobar42
+      register: mntopts
+    - assert:
+        that: not mntopts|changed
+
+    #### Add a key/value Option ####
+    - copy: src=example-fstab dest=./fstab
+
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: foobar42
+        value: fuzbaz21
+
+    - command: cat fstab
+      register: fstab
+    - assert:
+        that: "'foobar42=fuzbaz21' in fstab.stdout"
+
+    #### Change a key/value Option ####
+    - copy: src=example-fstab dest=./fstab
+
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: data
+        value: journal
+
+    - command: cat fstab
+      register: fstab
+    - assert:
+        that: "'data=ordered' not in fstab.stdout"
+        that: "'data=journal' in fstab.stdout"
+
+    #### Remove an Option ####
+    - copy: src=example-fstab dest=./fstab
+
+    - mountopts:
+        fstab: ./fstab
+        name: /tmp
+        option: nosuid
+        state: absent
+
+    - command: cat fstab
+      register: fstab
+    - assert:
+        that: "'nosuid' not in fstab.stdout"
+
+    #### Remove an non-existant Option ####
+    - copy: src=example-fstab dest=./fstab
+
+    - mountopts:
+        fstab: ./fstab
+        name: /tmp
+        option: foo42bar
+        state: absent
