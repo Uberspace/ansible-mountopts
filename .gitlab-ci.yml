@@ -1,0 +1,14 @@
+---
+image: uberspace/ansible:ansible-2.1
+
+
+stages:
+  - test
+
+
+Test Features:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - cd test
+    - ansible-playbook test.yml -e ansible_python_interpreter=/usr/bin/python
