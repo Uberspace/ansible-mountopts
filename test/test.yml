@@ -50,8 +50,9 @@
     - command: cat fstab
       register: fstab
     - assert:
-        that: "'data=ordered' not in fstab.stdout"
-        that: "'data=journal' in fstab.stdout"
+        that:
+          - "'data=ordered' not in fstab.stdout"
+          - "'data=journal' in fstab.stdout"
 
     #### Remove an Option ####
     - copy: src=example-fstab dest=./fstab
