@@ -118,3 +118,13 @@
       register: mntopts
     - assert:
         that: not mntopts|changed
+
+    #### Remove an non-existant Option ####
+    - mountopts:
+        fstab: __file_does_not_exist
+        name: /tmp
+        option: foo42bar
+      ignore_errors: yes
+      register: mntopts
+    - assert:
+        that: mntopts|failed

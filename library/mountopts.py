@@ -1,4 +1,5 @@
 from ansible.module_utils.basic import AnsibleModule
+import os.path
 
 try:
     import fstab
@@ -52,6 +53,9 @@ def main():
 
     if not HAS_FSTAB_LIB:
         module.fail_json(msg='missing the `fstab` python module')
+
+    if not os.path.exists(module.params['fstab']):
+      module.fail_json(msg='given fstab file does not exist: ' + module.params['fstab'])
 
     changed = None
 
