@@ -7,6 +7,16 @@ mount options in `/etc/fstab`.
 
 See `test/test.yml` for usage examples.
 
+## Dependencies
+
+This module depends on the [`fstab`-python-module](https://pypi.python.org/pypi/fstab),
+which needs to be installed separately on the remote machine:
+
+```yml
+- name: install dependencies for mountopts-module
+  pip: name=fstab
+```
+
 ## Development
 
 1. first get an virtualenv up and running: `virtualenv venv --python=python2`
