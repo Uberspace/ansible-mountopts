@@ -63,6 +63,10 @@ def main():
     ft.read(module.params['fstab'])
 
     line = find_mount(ft, module.params['name'])
+
+    if not line:
+      module.fail_json(msg='given mountpoint does not exist: {}. You can create it using the mount-module.'.format(module.params['name']))
+
     opts = parse_options(line.get_options())
 
     if module.params['state'] == 'present':

@@ -128,3 +128,13 @@
       register: mntopts
     - assert:
         that: mntopts|failed
+
+    #### Remove inside an non-existant mountpoint ####
+    - mountopts:
+        fstab: ./fstab
+        name: /tmp222
+        option: foo42bar
+      ignore_errors: yes
+      register: mntopts
+    - assert:
+        that: mntopts|failed
