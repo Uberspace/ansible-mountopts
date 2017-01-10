@@ -44,6 +44,15 @@
     - assert:
         that: "'foobar42=fuzbaz21' in fstab.stdout"
 
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: foobar42
+        value: fuzbaz21
+      register: mntopts
+    - assert:
+        that: not mntopts|changed
+
     #### Change a key/value Option ####
     - copy: src=example-fstab dest=./fstab
 
@@ -63,6 +72,15 @@
           - "'data=ordered' not in fstab.stdout"
           - "'data=journal' in fstab.stdout"
 
+    - mountopts:
+        fstab: ./fstab
+        name: /
+        option: data
+        value: journal
+      register: mntopts
+    - assert:
+        that: not mntopts|changed
+
     #### Remove an Option ####
     - copy: src=example-fstab dest=./fstab
 
@@ -79,6 +97,15 @@
       register: fstab
     - assert:
         that: "'nosuid' not in fstab.stdout"
+
+    - mountopts:
+        fstab: ./fstab
+        name: /tmp
+        option: nosuid
+        state: absent
+      register: mntopts
+    - assert:
+        that: not mntopts|changed
 
     #### Remove an non-existant Option ####
     - copy: src=example-fstab dest=./fstab
