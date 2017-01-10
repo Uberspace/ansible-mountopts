@@ -10,6 +10,9 @@
         fstab: ./fstab
         name: /
         option: foobar42
+      register: mntopts
+    - assert:
+        that: mntopts|changed
 
     - command: cat fstab
       register: fstab
@@ -32,6 +35,9 @@
         name: /
         option: foobar42
         value: fuzbaz21
+      register: mntopts
+    - assert:
+        that: mntopts|changed
 
     - command: cat fstab
       register: fstab
@@ -46,6 +52,9 @@
         name: /
         option: data
         value: journal
+      register: mntopts
+    - assert:
+        that: mntopts|changed
 
     - command: cat fstab
       register: fstab
@@ -62,6 +71,9 @@
         name: /tmp
         option: nosuid
         state: absent
+      register: mntopts
+    - assert:
+        that: mntopts|changed
 
     - command: cat fstab
       register: fstab
@@ -76,3 +88,6 @@
         name: /tmp
         option: foo42bar
         state: absent
+      register: mntopts
+    - assert:
+        that: not mntopts|changed
