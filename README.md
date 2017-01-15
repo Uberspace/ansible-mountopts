@@ -6,7 +6,7 @@ in ansible only allows setting the whole mount option list. This can be
 troublesome when editing mount options of a partly-automated remote or when
 editing options from multiple roles.
 
-Note that the scope of module _only_ only includes mount options. It does not
+Note that the scope of module _only_ includes mount options. It does not
 support changing the file system type of a mount, nor does it support adding,
 removing or mounting mount points. Use the original ansible module for that.
 
