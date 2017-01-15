@@ -1,4 +1,4 @@
-# Ansible Mount Options
+# Ansible Mount Options [![Build Status](https://travis-ci.org/Uberspace/ansible-mountopts.svg?branch=master)](https://travis-ci.org/Uberspace/ansible-mountopts)
 
 An Ansible module which allows to easily add, remove or set mount options in
 `/etc/fstab`. The original [`mount`-module](http://docs.ansible.com/ansible/mount_module.html)
