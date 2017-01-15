@@ -1,7 +1,14 @@
-# Ansible MountOpts
+# Ansible Mount Options
 
-An Ansible module which allows to easily add, remove or set
-mount options in `/etc/fstab`.
+An Ansible module which allows to easily add, remove or set mount options in
+`/etc/fstab`. The original [`mount`-module](http://docs.ansible.com/ansible/mount_module.html)
+in ansible only allows setting the whole mount option list. This can be
+troublesome when editing mount options of a partly-automated remote or when
+editing options from multiple roles.
+
+Note that the scope of module _only_ only includes mount options. It does not
+support changing the file system type of a mount, nor does it support adding,
+removing or mounting mount points. Use the original ansible module for that.
 
 ## Usage
 
