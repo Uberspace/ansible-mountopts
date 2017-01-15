@@ -5,7 +5,22 @@ mount options in `/etc/fstab`.
 
 ## Usage
 
-See `test/test.yml` for usage examples.
+```yml
+# set the data-option to 'journal'
+- mountopts:
+    name: /
+    option: data
+    value: journal
+
+# remove the 'noatime' from /home entirely
+- mountopts:
+    name: /home
+    option: noatime
+    state: absent
+```
+
+For more examples take a look at `test/test.yml`, which contains all possible
+use cases.
 
 ## Dependencies
 
