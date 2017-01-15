@@ -3,41 +3,40 @@ import os.path
 
 try:
     import fstab
-    HAS_FSTAB_LIB=True
+    HAS_FSTAB_LIB = True
 except:
-    HAS_FSTAB_LIB=False
-
+    HAS_FSTAB_LIB = False
 
 
 def find_mount(ft, directory):
-  for l in ft.lines:
-    if l.has_filesystem() and l.directory == directory:
-      return l
+    for l in ft.lines:
+        if l.has_filesystem() and l.directory == directory:
+            return l
 
 
 def parse_options(options):
-  parsed = {}
+    parsed = {}
 
-  for opt in options:
-    if '=' in opt:
-      opt = opt.split('=')
-      parsed[opt[0]] = opt[1]
-    else:
-      parsed[opt] = None
+    for opt in options:
+        if '=' in opt:
+            opt = opt.split('=')
+            parsed[opt[0]] = opt[1]
+        else:
+            parsed[opt] = None
 
-  return parsed
+    return parsed
 
 
 def dump_options(options):
-  dumped = []
+    dumped = []
 
-  for opt, val in options.iteritems():
-    if val is None:
-      dumped.append(opt)
-    else:
-      dumped.append("{}={}".format(opt, val))
+    for opt, val in options.iteritems():
+        if val is None:
+            dumped.append(opt)
+        else:
+            dumped.append("{}={}".format(opt, val))
 
-  return dumped
+    return dumped
 
 
 def main():
@@ -55,7 +54,7 @@ def main():
         module.fail_json(msg='missing the `fstab` python module')
 
     if not os.path.exists(module.params['fstab']):
-      module.fail_json(msg='given fstab file does not exist: ' + module.params['fstab'])
+        module.fail_json(msg='given fstab file does not exist: ' + module.params['fstab'])
 
     changed = None
 
@@ -65,34 +64,33 @@ def main():
     line = find_mount(ft, module.params['name'])
 
     if not line:
-      module.fail_json(msg='given mountpoint does not exist: {}. You can create it using the mount-module.'.format(module.params['name']))
+        odule.fail_json(msg='given mountpoint does not exist: {}. You can create it using the mount-module.'.format(module.params['name']))
 
     opts = parse_options(line.get_options())
 
     if module.params['state'] == 'present':
-      if module.params['value']:
-        changed = (opts.get(module.params['option'], None) != module.params['value'])
-        opts[module.params['option']] = module.params['value']
-      else:
-        changed = (module.params['option'] not in opts)
-        opts[module.params['option']] = None
+        if module.params['value']:
+            changed = (opts.get(module.params['option'], None) != module.params['value'])
+            opts[module.params['option']] = module.params['value']
+        else:
+            changed = (module.params['option'] not in opts)
+            opts[module.params['option']] = None
     elif module.params['state'] == 'absent':
-      if module.params['option'] in opts:
-        del opts[module.params['option']]
-        changed = True
-      else:
-        changed = False
+        if module.params['option'] in opts:
+            del opts[module.params['option']]
+            changed = True
+        else:
+            changed = False
     else:
-      raise module.fail_json(msg='parameter "state": unknown value')
+        raise module.fail_json(msg='parameter "state": unknown value')
 
     line.set_options(dump_options(opts))
     ft.write(module.params['fstab'])
 
     if changed is None:
-      raise module.fail_json(msg='bug: no changed value was set')
+        raise module.fail_json(msg='bug: no changed value was set')
 
     module.exit_json(changed=changed)
-
 
 
 if __name__ == '__main__':
