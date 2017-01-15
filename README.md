@@ -22,7 +22,14 @@ mount options in `/etc/fstab`.
 For more examples take a look at `test/test.yml`, which contains all possible
 use cases.
 
-## Dependencies
+## Installation
+
+It is recommended to add this repository as a [git submodule](https://git-scm.com/docs/git-submodule)
+to your ansible project. The `library/mountopts.py`-file can then be symlinked
+into your `library` directory. Alternatively the [`library`-setting](http://docs.ansible.com/ansible/intro_configuration.html#library)
+of ansible can be used to point ansible to the submodule directly.
+
+### Dependencies
 
 This module depends on the [`fstab`-python-module](https://pypi.python.org/pypi/fstab),
 which needs to be installed separately on the remote machine:
