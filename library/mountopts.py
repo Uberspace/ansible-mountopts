@@ -64,7 +64,7 @@ def main():
     line = find_mount(ft, module.params['name'])
 
     if not line:
-        odule.fail_json(msg='given mountpoint does not exist: {}. You can create it using the mount-module.'.format(module.params['name']))
+        module.fail_json(msg='given mountpoint does not exist: {}. You can create it using the mount-module.'.format(module.params['name']))
 
     opts = parse_options(line.get_options())
 
